@@ -1,0 +1,85 @@
+plugins {
+    id "groovy"
+    id "idea"
+    id "org.springframework.boot" version "2.0.4.RELEASE"
+}
+
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java"]
+        }
+        resources {
+            srcDirs = ["src/main/resources"]
+        }
+    }
+}
+
+dependencies {
+    // Groovy
+    compile "org.codehaus.groovy:groovy-all:2.4.15"
+
+    // lombok => auto gen getter/setter doesnt work
+
+    compile "com.fasterxml.uuid:java-uuid-generator:3.1.5"
+
+//    using jetty server instead tomcat
+    compile("org.springframework.boot:spring-boot-starter-web:2.0.3.RELEASE") {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+    compile "org.springframework.boot:spring-boot-starter-jetty:2.0.3.RELEASE"
+
+    compile "com.mysema.querydsl:querydsl-jpa:3.7.4"
+    compile "com.mysema.querydsl:querydsl-apt:3.7.4"
+    compile "com.mysema.querydsl:querydsl-core:3.7.4"
+
+    compile("org.springframework.boot:spring-boot-starter-jdbc:2.0.4.RELEASE") {
+        exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
+    }
+
+    //spring hibernate
+//    compile "org.springframework.boot:spring-boot-starter-data-jpa:2.0.4.RELEASE"
+
+    // connection pooling with hikaricp
+//    compile ("com.zaxxer:HikariCP:3.1.0") {
+//        exclude group: 'org.hibernate', module: 'hibernate-core'
+//    }
+//    compile('org.hibernate:hibernate-hikaricp:5.2.11.Final') {
+//        exclude group: 'com.zaxxer', module: 'HikariCP'
+//        exclude group: 'org.hibernate', module: 'hibernate-core'
+//    }
+
+
+    compile "com.querydsl:querydsl-jpa:4.2.1"
+    compile "com.querydsl:querydsl-apt:4.2.1"
+
+    //Apache shiro
+    compile "org.apache.shiro:shiro-core:1.4.0"
+    compile "org.apache.shiro:shiro-spring:1.4.0"
+    compile "org.apache.shiro:shiro-ehcache:1.4.0"
+
+    compile "ch.qos.logback:logback-core:1.2.3"
+    compile "ch.qos.logback:logback-classic:1.2.3"
+
+    compile "org.hibernate:hibernate-validator:6.0.10.Final"
+    runtime "org.springframework.boot:spring-boot-devtools"
+    runtime "mysql:mysql-connector-java:8.0.11"
+
+    // Spock
+    testCompile "org.springframework.boot:spring-boot-starter-test:2.0.4.RELEASE"
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
+    testCompile "org.spockframework:spock-spring:1.1-groovy-2.4"
+    testRuntime "cglib:cglib-nodep:3.2.4"
+}
